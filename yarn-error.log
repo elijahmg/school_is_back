@@ -1,0 +1,47 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add appolo-server-express
+
+PATH: 
+  C:\Users\ww\WebstormProjects\school_is\node_modules\.bin;C:\Users\ww\AppData\Local\Microsoft\WindowsApps;C:\Qt\Tools\mingw530_32\bin;C:\Users\ww\Desktop\qtjambi-community-4.8.7-win64-msvc2013\bin;C:\Users\ww\Desktop\qtjambi-community-4.8.7-win64-msvc2013\lib;D:\Coding\lib\apache-maven-3.5.0\bin;D:\Coding\lib\apache-tomcat-8.5.20\bin;D:\Coding\lib\apache-tomcat-9.0.0.M26\bin;C:\xampp\php;C:\Users\ww\AppData\Roaming\npm;C:\Users\ww\AppData\Local\Yarn\bin;C:\Program Files\nodejs;C:\composer;C:\Users\ww\Desktop\reverse;C:\Program Files\Java\jdk1.8.0_144\bin;C:\Program Files\Java\jre1.8.0_191\bin;D:\CodingSoft\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\MongoDB\Server\4.2\bin;C:\Users\ww\AppData\Local\Microsoft\WindowsApps;C:\Qt\Tools\mingw530_32\bin;C:\Users\ww\Desktop\qtjambi-community-4.8.7-win64-msvc2013\bin;C:\Users\ww\Desktop\qtjambi-community-4.8.7-win64-msvc2013\lib;C:\Program Files\Java\jre1.8.0_144\bin;D:\Coding\lib\apache-maven-3.5.0\bin;D:\Coding\lib\apache-tomcat-8.5.20\bin;D:\Coding\lib\apache-tomcat-9.0.0.M26\bin;C:\xampp\php;C:\Users\ww\AppData\Roaming\Composer\vendor\bin;C:\composer;C:\Users\ww\Desktop\reverse;C:\Program Files\Java\jdk1.8.0_144\bin;C:\Program Files\Java\jre1.8.0_191\bin;C:\Users\ww\AppData\Local\Microsoft\WindowsApps;C:\Users\ww\AppData\Roaming\npm;C:\Users\ww\AppData\Local\Yarn\bin;
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  10.15.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/appolo-server-express: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65167:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:129541:22)
+      at Request.emit (events.js:189:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130513:10)
+      at Request.emit (events.js:189:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:130435:12)
+      at Object.onceWrapper (events.js:277:13)
+      at IncomingMessage.emit (events.js:194:15)
+      at endReadableNT (_stream_readable.js:1125:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "school_is",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+      "start": "webpack --colors --progress"
+    },
+    "dependencies": {
+  
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
