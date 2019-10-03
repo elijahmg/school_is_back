@@ -1,11 +1,12 @@
 import http, { createServer } from 'http';
+import config from './config';
 import app from './server';
 
 let currentApp = app;
 
 const server = http.createServer(app);
 
-server.listen(3000, () => {
+server.listen(config.port, () => {
   console.log('server is listening');
 });
 

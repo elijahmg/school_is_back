@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose'
 
-const userSchema = new mongoose.Schema({
+export const schema = {
   username: {
     type: String,
     unique: true,
@@ -11,11 +11,13 @@ const userSchema = new mongoose.Schema({
     required: true,
     type: String,
   }
-}, { timestamps: true });
+};
+
+const userSchema = new mongoose.Schema(schema, { timestamps: true });
 
 userSchema.methods = {
   authenticate(plaintTextPassword) {
-    return bcrypt.compareSync(plainTextPword, this.password)
+    return bcrypt.compareSync(plaintTextPassword, this.password)
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {

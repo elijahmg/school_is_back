@@ -10,7 +10,7 @@ setupMiddleware(app);
 app.use('/api', protect, restRouter);
 
 app.all('*', (req, res) => {
-  res.json({ ok: false })
+  res.json({ ok: false });
 });
 
 export default app;

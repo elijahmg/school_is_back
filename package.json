@@ -4,9 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack --colors --progress"
+    "start": "webpack --colors --progress",
+    "test:unit": "SET NODE_ENV=test&& mocha \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register --require @babel/register",
+    "test": "npm run test:unit",
+    "devtest": "webpack-dev-server --config webpack.test.js",
+    "t": "webpack-dev-server --config webpack.test.js --module-bin 'mocha-loader!./test'"
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/register": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "apollo-server-express": "^2.9.4",
     "babel-loader": "^8.0.6",
@@ -16,9 +22,12 @@
     "express-jwt": "^5.3.1",
     "graphql": "^14.5.7",
     "graphql-tools": "^4.0.5",
+    "html-webpack-plugin": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
-    "mongoose": "^5.7.1"
+    "mongoose": "^5.7.1",
+    "webpack-dev-server": "^3.8.2",
+    "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

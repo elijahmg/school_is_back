@@ -2,28 +2,28 @@ import { merge } from 'lodash';
 
 export const controllers = {
   createOne(model, body) {
-    return Promise.resolve({ message: 'hello' });
+    return model.create(body);
   },
 
   updateOne(docToUpdate, update) {
     merge(docToUpdate, update);
-    return docToUpdate(update);
+    return docToUpdate.save();
   },
 
   deleteOne(docToDelete) {
-    return docToDelete.remove()
+    return docToDelete.remove();
   },
 
   getOne(docToGet) {
-    return Promise.resolve(docToGet)
+    return Promise.resolve(docToGet);
   },
 
   getAll(model) {
-    return model.find({})
+    return model.find({}).exec();
   },
 
   findByParam(model, id) {
-    return model.findById(id)
+    return model.findById(id).exec()
   }
 };
 

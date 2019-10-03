@@ -1,7 +1,8 @@
 export const config = {
   expireTime: '30d',
   secrets: {
-    JWT_SECRET: 'boost'
+    JWC_SECRET: 'boost-test',
+    JWT_SECRET: 'boost-test'
   },
   db: {
     url: 'mongodb://localhost/jams-test'
