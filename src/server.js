@@ -1,13 +1,16 @@
 import express from 'express';
-import { restRouter } from "./api/restRouter";
-import { protect } from "./api/modules/auth";
+import { restRouter } from './api';
+import { protect, signin, verifyUser } from './api/modules/auth';
 import setupMiddleware from './middleware';
+import server from './api/graphQLRouter';
+import { connect } from './db';
 
 const app = express();
 
 setupMiddleware(app);
+connect();
 
-app.use('/api', protect, restRouter);
+server.applyMiddleware({ app });
 
 app.all('*', (req, res) => {
   res.json({ ok: false });

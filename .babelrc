@@ -3,12 +3,13 @@
     [
       "@babel/preset-env",
       {
-        "modules": 'commonjs'
+        "modules": "commonjs"
       }
     ]
   ],
   "plugins": [
     "@babel/transform-runtime",
-    "@babel/proposal-class-properties"
+    "@babel/proposal-class-properties",
+    "import-graphql"
   ]
 }

@@ -7,7 +7,7 @@ export const schema = {
     unique: true,
     required: true
   },
-  passwordHash: {
+  password: {
     required: true,
     type: String,
   }
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(schema, { timestamps: true });
 
 userSchema.methods = {
   authenticate(plaintTextPassword) {
-    return bcrypt.compareSync(plaintTextPassword, this.password)
+    return bcrypt.compareSync(plaintTextPassword, this.passwordHash)
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {

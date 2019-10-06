@@ -51,7 +51,7 @@ export const getFreshUser = () => (req, res, next) => {
     .catch(error => next(error))
 };
 
-export const verifyUser = () => (req, res, next) => {
+export const verifyUser = (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -81,7 +81,7 @@ export const verifyUser = () => (req, res, next) => {
         }
       }
     })
-    .catch(error => next(err))
+    .catch(error => next(error))
 };
 
 export const signToken = (id) => jwt.sign(

@@ -4,7 +4,9 @@ import mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 
 export const connect = () => {
+  mongoose.set('createIndexes', true);
   return mongoose.connect(config.db.url, {
-    useMongoClient: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
 };

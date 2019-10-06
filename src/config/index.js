@@ -1,7 +1,6 @@
 import { merge } from 'lodash'
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-let env = process.env.NODE_ENV;
+let env = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
   port: 3000,
@@ -29,5 +28,7 @@ switch (env) {
   default:
     envConfig = require('./dev').config
 }
+
+console.log('merge(baseConfig, envConfig)', merge(baseConfig, envConfig));
 
 export default merge(baseConfig, envConfig);

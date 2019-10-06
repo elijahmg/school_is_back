@@ -1,6 +1,8 @@
 // import '../src/api/resources/user/user.model'
 import mongoose from 'mongoose';
 import config from '../src/config';
+import { graphql } from 'graphql';
+import { schema } from '../src/api/graphQLRouter';
 
 mongoose.Promise = global.Promise;
 
@@ -21,10 +23,14 @@ export const removeModel = (modelName) => {
 };
 
 export const dropDb = () => {
-  mongoose.set('useCreateIndex', true);
+  mongoose.set('createIndexes', true);
   return mongoose.connect(config.db.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
     .then(() => Promise.all(mongoose.modelNames().map(removeModel)))
+};
+
+export const runQuery = async (query, variables, user) => {
+  return graphql(schema, query, {}, {user}, variables);
 };
