@@ -29,6 +29,4 @@ switch (env) {
     envConfig = require('./dev').config
 }
 
-console.log('merge(baseConfig, envConfig)', merge(baseConfig, envConfig));
-
 export default merge(baseConfig, envConfig);

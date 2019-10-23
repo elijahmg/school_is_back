@@ -1,6 +1,4 @@
 import express from 'express';
-import { restRouter } from './api';
-import { protect, signin, verifyUser } from './api/modules/auth';
 import setupMiddleware from './middleware';
 import server from './api/graphQLRouter';
 import { connect } from './db';

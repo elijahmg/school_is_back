@@ -8,12 +8,12 @@ const getMe = (_, __, { user }) => {
   return user;
 };
 
-const updateUser = (_, {input}, {user}) => {
+const updateUser = (_, { input }, { user }) => {
   merge(user, input);
   user.save()
 };
 
-const createUser = async (_, {input}, __) => {
+const createUser = async (_, { input }, __) => {
   const hashPassword = await bcrypt.hash(input.password, 10);
 
   const user = {
@@ -24,7 +24,7 @@ const createUser = async (_, {input}, __) => {
   return User.create(user);
 };
 
-const login = async (_, {input}, ctx) => {
+const login = async (_, { input }, ctx) => {
   const user = await User.findOne({ username: input.username });
 
   if (!user) throw Error('No user');
@@ -34,9 +34,9 @@ const login = async (_, {input}, ctx) => {
   if (!passwordMatch) throw Error('Wrong password');
 
   const token = jwt.sign({
-    id: user.id,
-    username: user.name,
-  },
+      id: user.id,
+      username: user.name,
+    },
     config.secrets.JWT_SECRET,
     { expiresIn: config.expireTime }
   );

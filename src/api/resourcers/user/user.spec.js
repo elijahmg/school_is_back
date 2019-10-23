@@ -1,66 +1,89 @@
-import { expect } from 'chai'
-import createApiSpec from '../../../../test/apiSpecs'
+import { expect, assert } from 'chai'
 import { User, schema } from './user.model'
 import { describe } from "mocha";
-import { dropDb, runQuery } from '../../../../test/helpers';
-import { connect } from '../../../db';
+import { dropDb } from '../../../../test/helpers';
 import gql from 'graphql-tag';
+import { createTestClient } from 'apollo-server-testing';
+import server from '../../graphQLRouter';
 
-// createApiSpec(User, 'user', { username: 'stu', passwordHash: '123' });
-
-describe.only('User', () => {
+describe.only('User with apollo', () => {
   let user;
+
+  const { query, mutate } = createTestClient(server);
   beforeEach(async () => {
     await dropDb();
-    user = await User.create({ username: 'JackTest', password: '123' });
+    user = await mutate({
+      mutation: gql`
+          mutation CreateUser($input: NewUser!) {
+              createUser(input: $input) {
+                  id
+                  username
+              }
+          }
+      `,
+      variables: {
+        input: {
+          username: 'Jack Test',
+          password: "123",
+        },
+      }
+    });
+
+    user = user.data.createUser;
   });
 
   afterEach(async () => {
     await dropDb();
   });
 
-  it('login', async () => {
-    const loginResult = await runQuery(`
-        mutation Login($input: NewUser!) {
-            login(input: $input) {
-                user {
-                    id
-                }
-                token
-            }
-        }
-    `, {
-      input: {
-        username: user.username,
-        password: user.password,
+  it('Test login', async () => {
+    const result = await mutate({
+      mutation: gql`
+          mutation Login($input: NewUser!) {
+              login(input: $input) {
+                  user {
+                      id
+                      username
+                  }
+                  token
+              }
+          }
+      `,
+      variables: {
+        input: {
+          username: user.username,
+          password: "123",
+        },
       }
-    }, user);
-
-    expect(loginResult.errors).to.not.exist;
-
-    const result = await runQuery(`{
-        getMe {
-          id
-          username
-        }
-    }`, {}, user);
+    });
 
     expect(result.errors).to.not.exist;
-  });
+    expect(result.data.login.token).to.exist;
+    assert.equal(result.data.login.user.username, 'Jack Test', 'Names match');
 
-  it('should get me', async () => {
-    const result = await runQuery(`{
-        getMe {
-          id
-          username
+    const token = result.data.login.token;
+
+    await server.config.context({
+      req: {
+        headers: {
+          authorization: `Bearer ${token}`,
         }
-    }`, {}, user);
+      }
+    });
 
-    expect(result.errors).to.not.exist;
-    expect(result.data.getMe).to.be.an('object');
-    expect(result.data.getMe.id).to.eql(user.id.toString());
+    const getMeResult = await query({
+      query: gql`{
+          getMe {
+              id,
+          }
+      }`,
+    });
+
+    console.log('getMeResult', getMeResult);
+
+    expect(getMeResult.errors).to.not.exist;
+    assert.equal(getMeResult.data.getMe.id, result.data.login.user.id, 'Get me failed');
   });
-
 });
 
 // describe('User Model', () => {
