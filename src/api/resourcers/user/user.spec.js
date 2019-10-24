@@ -3,17 +3,18 @@ import { User, schema } from './user.model'
 import { describe } from "mocha";
 import { dropDb } from '../../../../test/helpers';
 import gql from 'graphql-tag';
-import { createTestClient } from 'apollo-server-testing';
+import { createTestClient } from 'apollo-server-integration-testing';
 import server from '../../graphQLRouter';
 
 describe.only('User with apollo', () => {
   let user;
 
-  const { query, mutate } = createTestClient(server);
   beforeEach(async () => {
+    const { mutate } = createTestClient({ apolloServer: server });
+
     await dropDb();
-    user = await mutate({
-      mutation: gql`
+    user = await mutate(
+      gql`
           mutation CreateUser($input: NewUser!) {
               createUser(input: $input) {
                   id
@@ -21,13 +22,14 @@ describe.only('User with apollo', () => {
               }
           }
       `,
-      variables: {
-        input: {
-          username: 'Jack Test',
-          password: "123",
+      {
+        variables: {
+          input: {
+            username: 'Jack Test',
+            password: "123",
+          },
         },
-      }
-    });
+      });
 
     user = user.data.createUser;
   });
@@ -37,8 +39,9 @@ describe.only('User with apollo', () => {
   });
 
   it('Test login', async () => {
-    const result = await mutate({
-      mutation: gql`
+    const { mutate } = createTestClient({ apolloServer: server });
+    const result = await mutate(
+      gql`
           mutation Login($input: NewUser!) {
               login(input: $input) {
                   user {
@@ -49,13 +52,14 @@ describe.only('User with apollo', () => {
               }
           }
       `,
-      variables: {
-        input: {
-          username: user.username,
-          password: "123",
-        },
-      }
-    });
+      {
+        variables: {
+          input: {
+            username: user.username,
+            password: "123",
+          },
+        }
+      });
 
     expect(result.errors).to.not.exist;
     expect(result.data.login.token).to.exist;
@@ -63,23 +67,21 @@ describe.only('User with apollo', () => {
 
     const token = result.data.login.token;
 
-    await server.config.context({
-      req: {
+    const { query } = createTestClient({
+      apolloServer: server,
+      extendMockRequest: {
         headers: {
           authorization: `Bearer ${token}`,
         }
-      }
+      },
     });
 
-    const getMeResult = await query({
-      query: gql`{
+    const getMeResult = await query(
+      gql`{
           getMe {
               id,
           }
-      }`,
-    });
-
-    console.log('getMeResult', getMeResult);
+      }`);
 
     expect(getMeResult.errors).to.not.exist;
     assert.equal(getMeResult.data.getMe.id, result.data.login.user.id, 'Get me failed');
