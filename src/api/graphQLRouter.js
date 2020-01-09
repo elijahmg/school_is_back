@@ -11,14 +11,12 @@ const getUser = (token) => {
       return jwt.verify(token, config.secrets.JWT_SECRET);
     }
   } catch (err) {
-    throw Error('Something hapend');
+    throw Error('Something happend');
   }
 };
 
 const server = new ApolloServer({
-  typeDefs: [
-    userType,
-  ],
+  typeDefs: [userType],
   resolvers: merge(
     {},
     userResolvers,

@@ -1,8 +1,5 @@
-// import '../src/api/resources/user/user.model'
 import mongoose from 'mongoose';
 import config from '../src/config';
-import { graphql } from 'graphql';
-import { schema } from '../src/api/graphQLRouter';
 
 mongoose.Promise = global.Promise;
 
@@ -29,8 +26,4 @@ export const dropDb = () => {
     useUnifiedTopology: true,
   })
     .then(() => Promise.all(mongoose.modelNames().map(removeModel)))
-};
-
-export const runQuery = async (query, variables, user) => {
-  return graphql(schema, query, {}, {user}, variables);
 };
