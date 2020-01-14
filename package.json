@@ -6,9 +6,7 @@
   "scripts": {
     "start": "webpack --colors --progress",
     "test:unit": "SET NODE_ENV=test&& mocha \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register --require @babel/register",
-    "test": "npm run test:unit",
-    "devtest": "webpack-dev-server --config webpack.test.js",
-    "t": "webpack-dev-server --config webpack.test.js --module-bin 'mocha-loader!./test'"
+    "test": "npm run test:unit"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.5.5",

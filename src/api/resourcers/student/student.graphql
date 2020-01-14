@@ -1,0 +1,35 @@
+type Student {
+    id: ID!
+    name: String!
+    password: String!
+    createdAt: String!
+    updatedAt: String!
+    subjects: [Subject!]
+}
+
+input UpdatedStudent {
+    name: String
+    subjects: String
+}
+
+input NewStudent {
+    name: String!
+    password: String!
+    subjects: [NewSubject!]
+}
+
+extend type Query {
+    getMe: Student!
+    findAll: [Student]
+}
+
+type LoginResponse {
+    student: Student
+    token: String
+}
+
+type Mutation {
+    updateStudent(input: UpdatedStudent!): Student!
+    createStudent(input: NewStudent!): Student!
+    login(input: NewStudent!): LoginResponse
+}

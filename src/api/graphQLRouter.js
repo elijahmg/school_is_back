@@ -1,34 +1,42 @@
 import { merge } from 'lodash';
 import { ApolloServer } from 'apollo-server-express';
-import userType from './resourcers/user/user.graphql';
-import { userResolvers } from './resourcers/user/user.resolvers';
-import config from '../config';
 import jwt from 'jsonwebtoken';
 
-const getUser = (token) => {
+/** Types **/
+import studentType from './resourcers/student/student.graphql';
+import subjectType from './resourcers/subject/subject.graphql';
+
+/** Resolvers **/
+import { studentResolvers } from './resourcers/student/student.resolvers';
+import { subjectResolvers } from './resourcers/subject/subject.resolvers';
+
+import config from '../config';
+
+const getStudent = (token) => {
   try {
     if (token) {
       return jwt.verify(token, config.secrets.JWT_SECRET);
     }
   } catch (err) {
-    throw Error('Something happend');
+    throw Error('Something happen');
   }
 };
 
 const server = new ApolloServer({
-  typeDefs: [userType],
+  typeDefs: [studentType, subjectType],
   resolvers: merge(
     {},
-    userResolvers,
+    studentResolvers,
+    subjectResolvers
   ),
   context: ({ req }) => {
     if (req) {
       const tokenWithBearer = req.headers.authorization || '';
       const token = tokenWithBearer.split(' ')[1];
 
-      const user = getUser(token);
+      const student = getStudent(token);
 
-      return { user }
+      return { student }
     }
   },
   playground: {

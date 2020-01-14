@@ -1,0 +1,15 @@
+type Subject {
+    name: String!
+}
+
+input NewSubject {
+    name: String!
+}
+
+type Query {
+    findByName(name: String): Subject
+}
+
+extend type Mutation {
+    createSubject(input: NewSubject!): Subject!
+}
