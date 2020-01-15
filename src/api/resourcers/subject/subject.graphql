@@ -1,4 +1,5 @@
 type Subject {
+    id: ID!
     name: String!
 }
 
@@ -8,6 +9,7 @@ input NewSubject {
 
 type Query {
     findByName(name: String): Subject
+    findAllSubjects: [Subject]
 }
 
 extend type Mutation {

@@ -5,12 +5,17 @@ const findByName = async (_, args) => {
 };
 
 const createSubject = async (_, args) => {
-  return Subject.create(args);
+  return Subject.create(args.input);
+};
+
+const findAllSubjects = async () => {
+  return Subject.find();
 };
 
 export const subjectResolvers = {
   Query: {
     findByName,
+    findAllSubjects,
   },
 
   Mutation: {

@@ -9,13 +9,13 @@ type Student {
 
 input UpdatedStudent {
     name: String
-    subjects: String
+    subjects: [ID!]
 }
 
 input NewStudent {
     name: String!
     password: String!
-    subjects: [NewSubject!]
+    subjects: [String!] #ids of subjects
 }
 
 extend type Query {

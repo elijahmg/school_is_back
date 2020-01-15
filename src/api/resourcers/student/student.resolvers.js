@@ -8,14 +8,47 @@ const getMe = (_, __, { student }) => {
   return student;
 };
 
-const updateStudent = async (_, { input }) => {
-  const subject = await Subject.findOne({ name: input.subjects });
-  const student = await Student.findOneAndUpdate( { name: input.name }, [{ $set: { subjects: subject._id } }]);
-  console.log('', student);
-  return student
+/**
+ * Update student property
+ * @param {any} root
+ * @param {Object} input
+ * @return {Promise<*>}
+ */
+const updateStudent = async (root, { input }) => {
+  let subjects = [];
+  if (input.subjects) {
+    subjects = await Subject.find({ name: { $in: input.subjects } });
+  }
+
+  let pipelines = {};
+  if (subjects.length) {
+    pipelines = {
+      ...pipelines,
+      subjects: subjects.map((s) => s._id)
+    }
+  }
+
+  if (input.name) {
+    pipelines = {
+      ...pipelines,
+      name: input.name
+    }
+  }
+
+  return Student.findOneAndUpdate(
+    { name: input.name },
+    pipelines,
+    { new: true });
 };
 
-const createStudent = async (_, { input }, __) => {
+/**
+ * Create student
+ * @param {any} root
+ * @param {Object} input
+ * @param {Object} ctx
+ * @return {Promise<user>}
+ */
+const createStudent = async (root, { input }, ctx) => {
   const hashPassword = await bcrypt.hash(input.password, 10);
 
   const user = {
@@ -27,7 +60,14 @@ const createStudent = async (_, { input }, __) => {
   return Student.create(user);
 };
 
-const findAll = async (_, data, ctx) => {
+/**
+ * Find all students
+ * @param {Object} root
+ * @param {Object} data
+ * @param {Object} ctx
+ * @return {Promise<*>}
+ */
+const findAll = async (root, data, ctx) => {
   return Student.find();
 };
 
