@@ -1,7 +1,4 @@
-import { ObjectId } from 'mongoose';
-
 import { Student } from './student.model';
-import { merge } from 'lodash';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../../../config';
@@ -69,8 +66,8 @@ export const studentResolvers = {
   },
 
   Student: {
-    subjects: () => {
-      return Subject.find() // @todo study
+    subjects: async (parent) => {
+      return await Subject.find({ _id: { $in: parent.subjects } });
     }
   }
 };
