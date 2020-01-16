@@ -1,22 +1,22 @@
 import { expect, assert } from 'chai'
-import { Student, schema } from './student.model'
+import { User, schema } from './user.model'
 import { describe } from "mocha";
 import { dropDb } from '../../../../test/helpers';
 import gql from 'graphql-tag';
 import { createTestClient } from 'apollo-server-integration-testing';
 import server from '../../graphQLRouter';
 
-describe.only('Student with apollo', () => {
-  let student;
+describe.only('User with apollo', () => {
+  let user;
 
   beforeEach(async () => {
     const { mutate } = createTestClient({ apolloServer: server });
 
     await dropDb();
-    student = await mutate(
+    user = await mutate(
       gql`
-          mutation CreateStudent($input: NewStudent!) {
-              createStudent(input: $input) {
+          mutation CreateUser($input: NewUser!) {
+              createUser(input: $input) {
                   id
                   name
               }
@@ -31,7 +31,7 @@ describe.only('Student with apollo', () => {
         },
       });
 
-    student = student.data.createStudent;
+    user = user.data.createUser;
   });
 
   afterEach(async () => {
@@ -42,9 +42,9 @@ describe.only('Student with apollo', () => {
     const { mutate } = createTestClient({ apolloServer: server });
     const result = await mutate(
       gql`
-          mutation Login($input: NewStudent!) {
+          mutation Login($input: NewUser!) {
               login(input: $input) {
-                  student {
+                  user {
                       id
                       name
                   }
@@ -55,7 +55,7 @@ describe.only('Student with apollo', () => {
       {
         variables: {
           input: {
-            name: student.name,
+            name: user.name,
             password: "123",
           },
         }
@@ -63,7 +63,7 @@ describe.only('Student with apollo', () => {
 
     expect(result.errors).to.not.exist;
     expect(result.data.login.token).to.exist;
-    assert.equal(result.data.login.student.name, 'Jack Test', 'Names match');
+    assert.equal(result.data.login.user.name, 'Jack Test', 'Names match');
 
     const token = result.data.login.token;
 
@@ -84,7 +84,7 @@ describe.only('Student with apollo', () => {
       }`);
 
     expect(getMeResult.errors).to.not.exist;
-    assert.equal(getMeResult.data.getMe.id, result.data.login.student.id, 'Get me failed');
+    assert.equal(getMeResult.data.getMe.id, result.data.login.user.id, 'Get me failed');
   });
 });
 

@@ -1,0 +1,50 @@
+enum Role {
+    ADMIN
+    STUDENT
+    TEACHER
+}
+
+type User {
+    id: ID!
+    name: String!
+    loginName: String!
+    password: String!
+    createdAt: String!
+    updatedAt: String!
+    roles: [Role!]!
+}
+
+input UpdatedUser {
+    name: String
+    roles: [Role!]!
+}
+
+input NewUser {
+    name: String!
+    password: String!
+    loginName: String!
+    roles: [Role!]!
+}
+
+input LoginUser {
+    loginName: String!
+    password: String!
+}
+
+type LoginResponse {
+    name: String!
+    loginName: String!
+    roles: [Role!]!
+    token: String
+}
+
+type Query {
+    getMe: User!
+    findAllUsers: [User]
+}
+
+type Mutation {
+    updateUser(input: UpdatedUser!): User!
+    createUser(input: NewUser!): User!
+    login(input: LoginUser!): LoginResponse
+}

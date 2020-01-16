@@ -7,8 +7,8 @@ input NewSubject {
     name: String!
 }
 
-type Query {
-    findByName(name: String): Subject
+extend type Query {
+    findSubjectByName(name: String): Subject
     findAllSubjects: [Subject]
 }
 

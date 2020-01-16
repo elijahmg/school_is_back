@@ -1,6 +1,6 @@
 import { Subject } from './subject.model';
 
-const findByName = async (_, args) => {
+const findSubjectByName = async (_, args) => {
   return Subject.findOne({ name: args.name });
 };
 
@@ -14,7 +14,7 @@ const findAllSubjects = async () => {
 
 export const subjectResolvers = {
   Query: {
-    findByName,
+    findSubjectByName,
     findAllSubjects,
   },
 

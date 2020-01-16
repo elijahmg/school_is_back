@@ -3,30 +3,27 @@ import { ApolloServer } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 
 /** Types **/
-import studentType from './resourcers/student/student.graphql';
+import userType from './resourcers/user/user.graphql';
 import subjectType from './resourcers/subject/subject.graphql';
 
 /** Resolvers **/
-import { studentResolvers } from './resourcers/student/student.resolvers';
+import { userResolvers } from './resourcers/user/user.resolvers';
 import { subjectResolvers } from './resourcers/subject/subject.resolvers';
 
 import config from '../config';
 
-const getStudent = (token) => {
-  try {
-    if (token) {
-      return jwt.verify(token, config.secrets.JWT_SECRET);
-    }
-  } catch (err) {
-    throw Error('Something happen');
+const getUser = (token) => {
+  if (token) {
+    return jwt.verify(token, config.secrets.JWT_SECRET);
   }
+  return undefined
 };
 
 const server = new ApolloServer({
-  typeDefs: [studentType, subjectType],
+  typeDefs: [userType, subjectType],
   resolvers: merge(
     {},
-    studentResolvers,
+    userResolvers,
     subjectResolvers
   ),
   context: ({ req }) => {
@@ -34,9 +31,9 @@ const server = new ApolloServer({
       const tokenWithBearer = req.headers.authorization || '';
       const token = tokenWithBearer.split(' ')[1];
 
-      const student = getStudent(token);
+      const user = getUser(token);
 
-      return { student }
+      return { user }
     }
   },
   playground: {
