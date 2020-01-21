@@ -10,6 +10,8 @@ server.listen(config.port, () => {
   console.log('server is listening');
 });
 
+declare const module: any;
+
 if (module.hot) {
   module.hot.accept(['./server'], () => {
     server.removeListener('request', currentApp);

@@ -4,30 +4,25 @@ const nodeExternals = require('webpack-node-externals');
 const StartServerPlugin = require('start-server-webpack-plugin');
 
 module.exports = {
-  entry: ['webpack/hot/poll?1000', './src/index'],
+  entry: ['webpack/hot/poll?1000', './src/index.ts'],
   watch: true,
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   target: 'node',
   mode: "development",
-  node: {
-    __filename: true,
-    __dirname: true
-  },
   externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+  devServer: {
+    port: 3000,
+    hot: true,
+    overlay: {
+      errors: true,
+      warnings: true,
+    },
+  },
   module: {
     rules: [
       {
-        test: /\.js?$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              babelrc: false,
-              presets: [['@babel/env', { modules: false }]],
-              plugins: ['@babel/transform-regenerator', '@babel/transform-runtime']
-            }
-          }
-        ],
+        test: /\.ts?$/,
+        use: 'ts-loader',
         exclude: /node_modules/
       },
       {
@@ -38,6 +33,9 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
     new StartServerPlugin('server.js'),

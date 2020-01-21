@@ -108,7 +108,7 @@ export const userResolvers = {
     createUser,
     login
   },
-  User: {
-    loginName: (par, root, { user }) => user.roles.includes('ADMIN') ? '' : par.loginName,
-  }
+  // User: {
+  //   loginName: (par, root, { user }) => user && user.roles.includes('ADMIN') ? '' : par.loginName,
+  // }
 };
