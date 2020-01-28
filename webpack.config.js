@@ -2,32 +2,25 @@ const webpack = require('webpack');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const StartServerPlugin = require('start-server-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: ['webpack/hot/poll?1000', './src/index'],
+  entry: ['webpack/hot/poll?1000', './src/server.ts'],
   watch: true,
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   target: 'node',
   mode: "development",
-  node: {
-    __filename: true,
-    __dirname: true
-  },
   externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+  devServer:  {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 3010,
+    hot: true,
+  },
   module: {
     rules: [
       {
-        test: /\.js?$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              babelrc: false,
-              presets: [['@babel/env', { modules: false }]],
-              plugins: ['@babel/transform-regenerator', '@babel/transform-runtime']
-            }
-          }
-        ],
+        test: /\.ts?$/,
+        use: 'ts-loader',
         exclude: /node_modules/
       },
       {
@@ -39,15 +32,13 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
   plugins: [
-    new StartServerPlugin('server.js'),
-    new webpack.NamedModulesPlugin(),
+    // new StartServerPlugin('server.js'),
+    new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': { BUILD_TARGET: JSON.stringify('server') }
-    }),
-    new webpack.BannerPlugin({ banner: 'require("source-map-support").install();', raw: true, entryOnly: false })
   ],
   output: { path: path.join(__dirname, 'dist'), filename: 'server.js' }
 };

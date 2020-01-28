@@ -1,6 +1,6 @@
 import { Subject } from './subject.model';
 
-const findSubjectByName = async (_, args) => {
+const findSubjectByName = async (_, args, {}) => {
   return Subject.findOne({ name: args.name });
 };
 

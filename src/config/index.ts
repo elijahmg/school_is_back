@@ -4,7 +4,11 @@ let env = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
   port: 3000,
-  secrets: {},
+  secrets: {
+    JWC_SECRET: 'boost-dev',
+    JWT_SECRET: 'boost-dev'
+  },
+  expireTime: '30d',
   db: {
     url: 'mongodb://localhost/jams'
   }

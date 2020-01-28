@@ -20,10 +20,10 @@ export const removeModel = (modelName) => {
 };
 
 export const dropDb = () => {
-  mongoose.set('createIndexes', true);
   return mongoose.connect(config.db.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
-    .then(() => Promise.all(mongoose.modelNames().map(removeModel)))
+    .then(async () => await Promise.all(mongoose.modelNames().map(removeModel)))
 };
