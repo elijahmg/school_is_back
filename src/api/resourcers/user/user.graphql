@@ -1,50 +1,81 @@
 enum Role {
-    ADMIN
-    STUDENT
-    TEACHER
+  ADMIN
+  STUDENT
+  TEACHER
 }
 
-type User {
-    id: ID!
-    name: String!
-    loginName: String!
-    password: String!
-    createdAt: String!
-    updatedAt: String!
-    roles: [Role!]!
+interface UserInterface {
+  id: ID!
+  name: String!
+  loginName: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+  roles: [Role!]!
 }
 
-input UpdatedUser {
-    name: String
-    roles: [Role!]!
+type Student implements UserInterface {
+  id: ID!
+  name: String!
+  loginName: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+  roles: [Role!]!
+  subjects: [Subject!]
 }
 
+# Common inputs
 input NewUser {
-    name: String!
-    password: String!
-    loginName: String!
-    roles: [Role!]!
+  name: String!
+  password: String!
+  loginName: String!
+  roles: [Role!]!
 }
 
 input LoginUser {
-    loginName: String!
-    password: String!
+  loginName: String!
+  password: String!
 }
 
+# Return common types
 type LoginResponse {
-    name: String!
-    loginName: String!
-    roles: [Role!]!
-    token: String
+  name: String!
+  loginName: String!
+  roles: [Role!]!
+  token: String
+}
+
+type CommonUser {
+  id: ID
+  roles: [Role!]!
+  name: String!
+  loginName: String!
+}
+
+# Inputs (Student)
+input StudentToUpdate {
+  name: String
+  subjects: [String!]
+}
+
+# Return Types (Student)
+type StudentReturn {
+  id: ID!
+  name: String!
+  loginName: String!
+  roles: [Role!]!
+  subjects: [Subject]
 }
 
 type Query {
-    getMe: User!
-    findAllUsers: [User]
+  getMe: CommonUser!
+  findAllStudents: [StudentReturn]
 }
 
 type Mutation {
-    updateUser(input: UpdatedUser!): User!
-    createUser(input: NewUser!): User!
-    login(input: LoginUser!): LoginResponse
+  updateStudent(input: StudentToUpdate!): StudentReturn!
+  createUser(input: NewUser!): StudentReturn!
+  login(input: LoginUser!): LoginResponse
+  updateMyself(input: StudentToUpdate!): StudentReturn
 }

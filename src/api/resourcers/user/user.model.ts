@@ -18,6 +18,9 @@ export const UserSchema = {
   roles: {
     type: Array,
   },
+  subjects: {
+    type: Array,
+  }
 };
 
 export interface UserInterface extends Document {
@@ -25,6 +28,7 @@ export interface UserInterface extends Document {
   name: string,
   password: string,
   roles: Array<string>,
+  subjects: Array<string>
 }
 
 const userSchema: Schema = new Schema(UserSchema, { timestamps: true });

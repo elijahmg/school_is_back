@@ -1,17 +1,19 @@
 import express from 'express';
-import setupMiddleware from './middleware';
 import server from './api/graphQLRouter';
 import { connect } from './db';
 
 const app = express();
 
-setupMiddleware(app);
-connect();
-
 server.applyMiddleware({ app });
 
-app.all('*', (req, res) => {
-  res.json({ ok: false });
+app.listen({ port: 3010 }, async () => {
+  await connect();
+  console.log('server is listening');
 });
 
-export default app;
+declare const module: any;
+
+if (module.hot) {
+  module.hot.accept();
+  module.hot.dispose(() => server.stop());
+}

@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose'
 
-export const schema = {
+export const SubjectSchema = {
   name: {
     type: String,
     unique: true,
@@ -8,6 +8,10 @@ export const schema = {
   }
 };
 
-const subjectSchema = new mongoose.Schema(schema, { timestamps: true });
+export interface SubjectInterface extends Document {
+  name: string,
+}
 
-export const Subject = mongoose.model('subject', subjectSchema);
+const subjectSchema: Schema = new Schema(SubjectSchema, { timestamps: true });
+
+export const Subject = mongoose.model<SubjectInterface>('subject', subjectSchema);

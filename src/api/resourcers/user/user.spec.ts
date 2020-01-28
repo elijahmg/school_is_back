@@ -14,13 +14,13 @@ beforeEach(async () => {
 
   user = await mutate(
     gql`
-        mutation CreateUser($input: NewUser!) {
-            createUser(input: $input) {
-                id
-                name
-                loginName
-            }
+      mutation CreateUser($input: NewUser!) {
+        createUser(input: $input) {
+          id
+          name
+          loginName
         }
+      }
     `,
     {
       variables: {
@@ -39,17 +39,16 @@ beforeEach(async () => {
 test('Test login', async () => {
   const { mutate } = createTestClient({ apolloServer: server });
 
-  const result = await mutate(
+  const result: any = await mutate(
     gql`
-        mutation Login($input: LoginUser!) {
-            login(input: $input) {
-                name
-                loginName
-                roles
-                token
-            }
+      mutation Login($input: LoginUser!) {
+        login(input: $input) {
+          name
+          loginName
+          roles
+          token
         }
-    `,
+      }`,
     {
       variables: {
         input: {
@@ -74,12 +73,12 @@ test('Test login', async () => {
     },
   });
 
-  const getMeResult = await query(
+  const getMeResult: any = await query(
     gql`{
-        getMe {
-            id,
-            name
-        }
+      getMe {
+        id,
+        name
+      }
     }`);
 
   expect(getMeResult.errors).to.not.exist;

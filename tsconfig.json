@@ -4,15 +4,22 @@
     "target": "es5",
     "sourceMap": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "lib": ["es6"],
     "outDir": "dist",
-    "typeRoots": ["node_modules/@types", "@types"],
+    "typeRoots": ["node_modules/@types",
+      "@types"
+    ],
     "skipLibCheck": true,
     "allowJs": true
   },
   "files": [
     "@types/graphql.d.ts"
   ],
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*.spec.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules", "dist",
+    "test", "**/*.spec.ts"]
 }
