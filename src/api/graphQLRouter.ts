@@ -1,3 +1,4 @@
+/// <reference path="../../@types/graphql.d.ts"/>
 import { merge } from 'lodash';
 import { ApolloServer } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
