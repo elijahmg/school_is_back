@@ -22,7 +22,7 @@
     "@types/mongoose": "^5.5.41",
     "@types/node": "^13.1.8",
     "@types/webpack-env": "^1.15.0",
-    "apollo-server-express": "^2.9.16",
+    "apollo-server-express": "^2.14.2",
     "apollo-server-integration-testing": "^2.2.0",
     "bcryptjs": "^2.4.3",
     "chai": "^4.2.0",
