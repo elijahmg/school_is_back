@@ -11,17 +11,6 @@ interface UserInterface {
   password: String!
   createdAt: String!
   updatedAt: String!
-  roles: [Role!]!
-}
-
-type Student implements UserInterface {
-  id: ID!
-  name: String!
-  loginName: String!
-  password: String!
-  createdAt: String!
-  updatedAt: String!
-  roles: [Role!]!
   subjects: [Subject!]
 }
 
@@ -30,7 +19,6 @@ input NewUser {
   name: String!
   password: String!
   loginName: String!
-  roles: [Role!]!
 }
 
 input LoginUser {
@@ -42,40 +30,35 @@ input LoginUser {
 type LoginResponse {
   name: String!
   loginName: String!
-  roles: [Role!]!
   token: String
 }
 
 type CommonUser {
   id: ID
-  roles: [Role!]!
   name: String!
   loginName: String!
 }
 
 # Inputs (Student)
-input StudentToUpdate {
+input UserToUpdate {
   name: String
   subjects: [String!]
 }
 
 # Return Types (Student)
-type StudentReturn {
+type UserReturn {
   id: ID!
   name: String!
   loginName: String!
-  roles: [Role!]!
   subjects: [Subject]
 }
 
 type Query {
   getMe: CommonUser!
-  findAllStudents: [StudentReturn]
 }
 
 type Mutation {
-  updateStudent(input: StudentToUpdate!): StudentReturn!
-  createUser(input: NewUser!): StudentReturn!
+  createUser(input: NewUser!): UserReturn!
   login(input: LoginUser!): LoginResponse
-  updateMyself(input: StudentToUpdate!): StudentReturn
+  updateMyself(input: UserToUpdate!): UserReturn
 }

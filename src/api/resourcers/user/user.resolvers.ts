@@ -21,17 +21,6 @@ const getMe = (root, { input }, { user }) => {
   return user;
 };
 
-/**
- * Find all users
- * @param {Object} root
- * @param {Object} data
- * @param {Object} ctx
- * @return {Promise<*>}
- */
-const findAllStudents = async (root, data, { user }) => {
-  return User.find();
-};
-
 /** MUTATIONS **/
 
 /**
@@ -53,28 +42,13 @@ const createUser = async (root, { input }, ctx) => {
 };
 
 /**
- * Update user property
- * @param {any} root
- * @param {Object} input
- * @param {Object} user
- * @return {Promise<*>}
+ * 
+ * @param {any} root 
+ * @param {Object} input 
+ * @param {Object} user 
  */
-const updateStudent = async (root, { input }, { user }) => {
-  const subjects = input.subjects;
-
-  const dbSubjects = await Subject.find({ name: { $in: subjects } });
-
-  return User.findOneAndUpdate(
-    { name: input.name },
-    { ...input, subjects: dbSubjects.map((subj) => subj._id) },
-    { new: true });
-};
-
 const updateMyself = async (root, { input }, { user }) => {
-  const subjects = input.subjects;
-  delete input.subjects;
-
-  const dbSubjects = await Subject.find({ name: { $in: subjects } });
+  const dbSubjects = await Subject.find({ name: { $in: input.subjects } });
 
   return User.findOneAndUpdate(
     { _id: user.id },
@@ -102,7 +76,6 @@ const login = async (root, { input }) => {
     id: user.id,
     name: user.name,
     loginName: user.loginName,
-    roles: user.roles,
   };
 
   const token = jwt.sign(
@@ -117,28 +90,20 @@ const login = async (root, { input }) => {
 export const userResolvers = {
   UserInterface: {
     __resolveType(obj, ctx, info) {
-      if (obj.subjects) {
-        return 'Student';
-      }
+        return 'User';
     }
   },
-  StudentReturn: {
+  UserReturn: {
     subjects: (parent, args) => {
       return Subject.find({ _id: { $in: parent.subjects } });
     },
   },
   Query: {
     getMe,
-    // findAllStudents: checkRight(findAllStudents, 'STUDENT'),
-    findAllStudents,
   },
   Mutation: {
-    updateStudent,
     createUser,
     updateMyself,
     login
   },
-  // User: {
-  //   loginName: (par, root, { user }) => user && user.roles.includes('ADMIN') ? '' : par.loginName,
-  // }
 };

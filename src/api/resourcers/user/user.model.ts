@@ -15,11 +15,8 @@ export const UserSchema = {
     required: true,
     type: String,
   },
-  roles: {
-    type: Array,
-  },
   subjects: {
-    type: Array,
+    type: [String],
   }
 };
 
@@ -27,7 +24,6 @@ export interface UserInterface extends Document {
   loginName: string,
   name: string,
   password: string,
-  roles: Array<string>,
   subjects: Array<string>
 }
 
